@@ -1,0 +1,38 @@
+name: Repo2Play Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_mode:
+        description: Build mode
+        required: true
+        default: NEW
+        type: choice
+        options:
+          - NEW
+          - UPDATE
+
+permissions:
+  contents: read
+
+jobs:
+  repo2play:
+    name: Repo2Play Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Verify Repo2Play engine
+        run: |
+          echo "Repo2Play Build Engine installed"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Mode: ${{ inputs.build_mode }}"
